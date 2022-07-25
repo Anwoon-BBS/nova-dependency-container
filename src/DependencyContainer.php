@@ -319,6 +319,14 @@ class DependencyContainer extends Field
                     $dependency) && $dependency['value'] == $request->get($dependency['property'])) {
                 $satisfiedCounts++;
             }
+
+            if (array_key_exists('in', $dependency) && in_array($request->get($dependency['property']), $dependency['in'])) {
+                $satisfiedCounts++;
+            }
+
+            if (array_key_exists('notin', $dependency) && !in_array($request->get($dependency['property']), $dependency['notin'])) {
+                $satisfiedCounts++;
+            }
         }
 
         return $satisfiedCounts == count($this->meta['dependencies']);
